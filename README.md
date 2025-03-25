@@ -136,7 +136,7 @@ For more details about the output files and reports, please refer to the
 
 ## Credits
 
-ecoflow/genomeqc was originally written by [Chris Wyatt](https://github.com/chriswyatt1) and [Fernando Duarte](https://github.com/FernandoDuarteF) at the University College London.
+nf-core/genomeqc was originally written by [Chris Wyatt](https://github.com/chriswyatt1) and [Fernando Duarte](https://github.com/FernandoDuarteF) at the University College London.
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
