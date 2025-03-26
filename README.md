@@ -119,7 +119,7 @@ nextflow run nf-core/genomeqc \
 You can run the pipeline using a test profile and docker:
 
 ```bash
-nextflow run nf-core/genomeqc -profile docker --outdir ./results
+nextflow run nf-core/genomeqc -profile test,docker --outdir ./results
 ```
 
 <!-- TODO nf-core: update the following command to include all required parameters for a minimal example -->
