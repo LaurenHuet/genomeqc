@@ -207,7 +207,7 @@ workflow GENOMEQC {
         ch_multiqc_files = ch_multiqc_files
                          | mix(GENOME_ONLY.out.quast_results.map { meta, results -> results })
                          | mix(GENOME_ONLY.out.busco_short_summaries.map { meta, txt -> txt })
-        ch_versions      = ch_versions.mix(GENOME_ONLY.out.versions.first())
+        ch_versions      = ch_versions.mix(GENOME_ONLY.out.versions)
     } else {
         GENOME_AND_ANNOTATION (
             ch_input.fasta,
@@ -216,7 +216,8 @@ workflow GENOMEQC {
         ch_multiqc_files = ch_multiqc_files
                          | mix(GENOME_AND_ANNOTATION.out.quast_results.map { meta, results -> results })
                          | mix(GENOME_AND_ANNOTATION.out.busco_short_summaries.map { meta, txt -> txt })
-        ch_versions      = ch_versions.mix(GENOME_AND_ANNOTATION.out.versions.first())
+        ch_versions      = ch_versions.mix(GENOME_AND_ANNOTATION.out.versions)
+        //ch_versions.view()
 
         //
         // MODULE: Run TREE SUMMARY
@@ -226,6 +227,7 @@ workflow GENOMEQC {
             GENOME_AND_ANNOTATION.out.orthofinder,
             GENOME_AND_ANNOTATION.out.tree_data
         )
+        ch_versions      = ch_versions.mix(TREE_SUMMARY.out.versions.first())
     }
 
     //
