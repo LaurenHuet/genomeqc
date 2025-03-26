@@ -145,6 +145,7 @@ We thank the following people for their extensive assistance in the development 
 - [Lauren Huet](https://github.com/LaurenHuet) ([Schmidt Ocean Institute](https://schmidtocean.org/))
 - [Stephen Turner](https://github.com/stephenturner/) ([Colossal Biosciences](https://colossal.com/))
 - [Felipe Perez Cobos](https://github.com/fperezcobos) ([Institute of Agrifood Research and Technology](https://www.irta.cat/en/))
+- [Simon Murray](https://github.com/SimonDMurray) ([Nextflow Ambassador](https://www.nextflow.io/our_ambassadors.html))
 
 <!-- TODO nf-core: If applicable, make list of people who have also contributed -->
 
