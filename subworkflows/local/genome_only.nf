@@ -37,6 +37,7 @@ workflow GENOME_ONLY {
     GENOME_ONLY_BUSCO_IDEOGRAM (
         ch_input_ideo
     )
+    ch_versions   = ch_versions.mix(GENOME_ONLY_BUSCO_IDEOGRAM.out.versions.first())
 
     emit:
     quast_results         = QUAST.out.results                   // channel: [ val(meta), [tsv] ]

@@ -4,6 +4,7 @@ include { LONGEST                             } from '../../modules/local/longes
 include { BUSCO_BUSCO                         } from '../../modules/nf-core/busco/busco/main'
 include { QUAST                               } from '../../modules/nf-core/quast/main'
 include { AGAT_SPSTATISTICS                   } from '../../modules/nf-core/agat/spstatistics/main'
+include { AGAT_SPSTATISTICS as TRIAL                   } from '../../modules/nf-core/agat/spstatistics/main'
 include { GENOME_ANNOTATION_BUSCO_IDEOGRAM    } from '../../modules/local/genome_annotation_busco_ideogram'
 include { GFFREAD                             } from '../../modules/nf-core/gffread/main'
 include { ORTHOFINDER                         } from '../../modules/nf-core/orthofinder/main'
@@ -28,7 +29,11 @@ workflow GENOME_AND_ANNOTATION {
     //
 
     // Fix and standarize GFF
-    ch_gff_agat  = AGAT_CONVERTSPGXF2GXF(ch_gff).output_gff
+    AGAT_CONVERTSPGXF2GXF(
+        ch_gff
+    )
+    ch_gff_agat  = AGAT_CONVERTSPGXF2GXF.out.output_gff
+    ch_versions  = ch_versions.mix(AGAT_CONVERTSPGXF2GXF.out.versions.first())
 
     //
     // MODULE: Run AGAT longest isoform
@@ -74,6 +79,7 @@ workflow GENOME_AND_ANNOTATION {
     GENE_OVERLAPS {
         ch_input.gff_filt
     }
+    ch_versions  = ch_versions.mix(GENE_OVERLAPS.out.versions.first())
 
     //
     // MODULE: Run Quast
@@ -108,6 +114,7 @@ workflow GENOME_AND_ANNOTATION {
     FASTAVALIDATOR(
         GFFREAD.out.gffread_fasta
     )
+    ch_versions  = ch_versions.mix(FASTAVALIDATOR.out.versions.first())
 
     //
     // MODULE: Run Orthofinder
@@ -181,6 +188,7 @@ workflow GENOME_AND_ANNOTATION {
                         }
 
     GENOME_ANNOTATION_BUSCO_IDEOGRAM ( ch_plot_input )
+    ch_versions         = ch_versions.mix(GENOME_ANNOTATION_BUSCO_IDEOGRAM.out.versions.first())
 
     ch_tree_data        = ch_tree_data.mix(BUSCO_BUSCO.out.batch_summary.collect { meta, file -> file })
 
@@ -190,5 +198,5 @@ workflow GENOME_AND_ANNOTATION {
     quast_results         = QUAST.out.results                   // channel: [ val(meta), [tsv] ]
     busco_short_summaries = BUSCO_BUSCO.out.short_summaries_txt // channel: [ val(meta), [txt] ]
 
-    versions              = ch_versions                         // channel: [ versions.yml ]
+    versions              = ch_versions                   // channel: [ versions.yml ]
 }
